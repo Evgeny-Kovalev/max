@@ -1,0 +1,10 @@
+{
+    "editor.tabSize": 4,
+	"prettier.useTabs": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    // Add those two lines:
+    "editor.formatOnSave": true
+    // "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
