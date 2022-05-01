@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/', authMiddleware, projectController.getProjects);
 router.get('/:id', authMiddleware, projectController.getProject);
+router.get('/:id/timesheet', authMiddleware, projectController.getTimesheet);
 
 router.post('/', authMiddleware, projectController.postProject);
 router.put('/:id', authMiddleware, projectController.putEditProject);

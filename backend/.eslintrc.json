@@ -16,6 +16,7 @@
         "no-underscore-dangle": "off",
         "no-tabs": "off",
         "max-len": "off",
-        "no-console": ["warn", { "allow": ["info", "error"] }]
+        "no-console": "off",
+        "no-unused-vars": "off"
     }
 }

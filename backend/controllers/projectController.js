@@ -1,5 +1,9 @@
+const { ObjectId } = require('mongoose').Types;
+const moment = require('moment');
+const { TextEncoderStream } = require('stream/web');
 const Project = require('../models/Project');
 const User = require('../models/User');
+const Task = require('../models/Task');
 
 exports.getProjects = async (req, res, next) => {
 	const { userId } = req.query;
@@ -99,5 +103,74 @@ exports.deleteProject = async (req, res, next) => {
 		return res.status(200).json({ message: 'Project deleted successfully.' });
 	} catch (e) {
 		next('Failed to delete the project.');
+	}
+};
+
+exports.getTimesheet = async (req, res, next) => {
+	const { id } = req.params;
+
+	const dates = [];
+
+	for (let i = 0; i < 5; i += 1) {
+		const now = moment().set({ hour: 0, minute: 0, second: 0 });
+		dates.push(now.subtract(i, 'days').format('D/MMMM'));
+	}
+
+	try {
+		const project = await Project.findById(id).populate({
+			path: 'users',
+			select: ['_id', 'name', 'email', 'icon'],
+			model: 'User',
+		});
+		if (!project) return res.status(400).json({ message: 'Project not found' });
+
+		const tasks = await Task
+			.find({
+				assignee: {
+					$in: project.users.map((user) => user._id),
+				},
+			})
+			.populate({
+				path: 'assignee',
+				select: ['_id', 'name', 'email', 'icon'],
+				model: 'User',
+			});
+
+		const tasksGroupedByDate = tasks.reduce((acc, task) => {
+			const end = moment(task.endTime, 'D/MMMM').format('D/MMMM');
+			const item = { user: task.assignee, data: { hours: task.timeSpent } };
+
+			if (acc[end]) {
+				const idx = acc[end].findIndex((itemExisted) => item.user._id.toString() === itemExisted.user._id.toString());
+				if (idx >= 0) {
+					acc[end][idx].data.hours += item.data.hours;
+				} else {
+					acc[end].push(item);
+				}
+			} else {
+				acc[end] = [item];
+			}
+			return acc;
+		}, {});
+
+		const result = project.users.map((user) => {
+			const de = dates.map((date) => {
+				const key = moment(date, 'D/MMMM').format('D/MMMM');
+				if (tasksGroupedByDate[key]) {
+					const data = tasksGroupedByDate[key].find((item) => item.user._id.toString() === user._id.toString());
+					if (data) return { value: key, ...data.data };
+				}
+				return { value: key, hours: null };
+			});
+			return {
+				user,
+				dates: de,
+			};
+		});
+
+		return res.status(200).json(result);
+	} catch (e) {
+		console.log(e);
+		next('Failed to get the project');
 	}
 };

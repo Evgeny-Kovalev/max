@@ -46,7 +46,7 @@ exports.getTasks = async (req, res, next) => {
 exports.postTask = async (req, res, next) => {
 	const { task } = req.body;
 	const {
-		title, text, status, projectId, storyPoint, startTime, endTime, assignee,
+		title, text, status, projectId, storyPoint, startTime, endTime, timeSpent, assignee,
 	} = task;
 	const { iterationId } = req.query;
 
@@ -65,6 +65,7 @@ exports.postTask = async (req, res, next) => {
 			status: status || 'todo',
 			startTime: startTime || new Date(),
 			endTime,
+			timeSpent,
 			assignee,
 		});
 
@@ -91,7 +92,9 @@ exports.putEditTask = async (req, res, next) => {
 	const { taskId } = req.params;
 	const { editedTask } = req.body;
 
-	editedTask.endTime = editedTask.status === 'done' ? new Date() : null;
+	if (editedTask.timeSpent) {
+		editedTask.endTime = new Date();
+	}
 
 	try {
 		const task = await Task.findByIdAndUpdate(taskId, editedTask, { new: true })

@@ -28,6 +28,7 @@ const taskSchema = new Mongoose.Schema(
 		assignee: { type: Mongoose.Types.ObjectId, ref: 'User', required: true },
 		startTime: { type: Date, default: new Date() },
 		endTime: { type: Date, default: null },
+		timeSpent: { type: Number, default: null },
 	},
 	{ versionKey: false },
 );
