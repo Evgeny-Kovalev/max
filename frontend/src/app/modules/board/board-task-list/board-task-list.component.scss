@@ -1,0 +1,16 @@
+.list {
+    background: rgba(244,245,247,1);
+    border-radius: .15rem;
+}
+
+.title {
+    color: rgba(94,108,132,1);
+    font-size: .8rem;
+}
+
+.list {
+  transition: all 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.list.cdk-drag-disabled {
+  cursor: default;
+}

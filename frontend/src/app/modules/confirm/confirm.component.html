@@ -1,0 +1,16 @@
+<ng-template [ngIf]="modal">
+    <div class="backdrop" (click)="modal.no()"></div>
+    <div class="custom-modal">
+        <div class="modal-dialog modal-sm m-0" >
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    {{modal.message}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="modal.no()">No</button>
+                    <button type="button" class="btn btn-primary" (click)="modal.yes()">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

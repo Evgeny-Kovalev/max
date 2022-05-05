@@ -1,0 +1,66 @@
+<h3 class="mb-4" *ngIf="iterationId && !task">Add new task to iteration</h3>
+<h3 class="mb-4" *ngIf="task">Edit Task - {{task.title}}</h3>
+<h3 class="mb-4" *ngIf="!iterationId && !task">Add new task to Backlog</h3>
+
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()" novalidate>
+
+    <div class="row mb-3">
+        <div class="col-12 col-sm">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-text">Title:</span>
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="title"
+                        formControlName="title"
+                        required
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm">
+            <div class="input-group">
+                <span class="input-group-text">Story point estimate:</span>
+                <input
+                    type="number"
+                    min="0"
+                    class="form-control"
+                    name="storyPoint"
+                    formControlName="storyPoint"
+                >
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <div class="form-group">
+                <label for="finishTime" class="mb-2">Description:</label>
+                <textarea
+                    class="form-control"
+                    name="text"
+                    formControlName="text"
+                    rows="3"
+                    required
+                >
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3" *ngIf="currentProject">
+        <div class="col"></div>
+        <div class="col col-md-6">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-text">Assignee:</span>
+                    <select class="form-select" formControlName="assignee" (change)="changeAssignee($event)" required >
+                        <option *ngFor="let user of (currentProject.users)" [value]="user._id" >{{user.name}} - {{user.email}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="btn btn-primary" type="submit" [disabled]="taskForm.invalid">Save</button>
+</form>

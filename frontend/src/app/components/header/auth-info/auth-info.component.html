@@ -1,0 +1,13 @@
+<div class="d-flex align-items-center ms-3 text-muted">
+    
+    <ng-container  *ngIf="isAuthUser">
+        <strong class="d-block text-gray-dark me-3">@{{userName}}</strong>
+        <button class="btn btn-outline-primary btn-sm me-1" (click)="onLogout()">Logout</button>
+    </ng-container >
+
+    <ng-container  *ngIf="!isAuthUser">
+        <a class="btn btn-primary btn-sm me-1" routerLink="/login">Log in</a>
+        <a  class="btn btn-outline-primary btn-sm" routerLink="/signup">Sing up</a>
+    </ng-container >
+    
+</div>

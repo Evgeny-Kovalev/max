@@ -1,0 +1,7 @@
+<div class="board row flex-nowrap" cdkDropListGroup>
+    <div class="col-12 col-sm-4 col-lg-3" *ngFor="let column of board">
+        <app-board-task-list [status]="column.status" [tasks]="column.tasks" ></app-board-task-list>
+    </div>
+</div>
+
+<app-task-modal></app-task-modal>

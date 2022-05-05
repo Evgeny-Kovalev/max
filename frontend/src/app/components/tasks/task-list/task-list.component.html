@@ -1,0 +1,31 @@
+<div class="alert alert-info" role="alert" *ngIf="tasks && !tasks.length">
+    There are no tasks
+</div>
+
+<app-loader [show]="!tasks"></app-loader>
+
+<ul class="list-group mb-2" *ngIf="tasks && tasks.length">
+    
+    <li class="list-group-item" *ngFor="let task of tasks" cdkDrag [cdkDragDisabled]="isDragDisabled" [cdkDragData]="task.id">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <span class="fw-bold">{{(task.status || "") | uppercase}}</span> - {{task.title}}
+                <span class="badge bg-primary rounded-pill mx-2">{{task.storyPoint}}</span>
+            </div>
+            <div>
+                <div class="d-flex">
+                    <button class="btn btn-primary btn-sm me-2" type="button" (click)="onView(task)">
+                        <fa-icon [icon]="faEye"></fa-icon>
+                    </button>
+                    <a routerLink="/project/{{project.id}}/tasks/{{task.id}}/edit" class="btn btn-success btn-sm me-2" >
+                        <fa-icon [icon]="faEdit"></fa-icon>
+                    </a>
+                    <button class="btn btn-danger btn-sm" type="button" (click)="onDelete(task)">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </li>
+    
+</ul>

@@ -1,0 +1,15 @@
+<li class="list-group-item bg-light rounded mb-1" >
+    <div class="d-flex justify-content-between align-items-center  mb-2">
+        <a routerLink="/project/{{project.id}}/board/{{iteration.id}}" class="text-decoration-none">
+            <b>{{iteration.startTime | date:"MMM dd"}} - {{iteration.finishTime | date:"MMM dd"}}</b>
+        </a>
+    </div>
+    <app-task-list
+        [tasks]="iterationTasks"
+        [project]="project"
+        cdkDropList
+        [cdkDropListData]="{iterationId: iteration.id, tasks: iterationTasks}"
+        (cdkDropListDropped)="drop($event)"
+    >
+    </app-task-list>
+</li>

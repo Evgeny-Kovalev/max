@@ -1,0 +1,35 @@
+<p *ngIf="iteration">Edit Iteration</p>
+<p *ngIf="!iteration">Add new Iteration</p>
+
+<form [formGroup]="iterationForm" (ngSubmit)="onSubmit()" novalidate>
+    <div 
+        class="alert alert-danger"
+        *ngIf="iterationForm.controls.startTime.invalid && iterationForm.controls.startTime.touched"
+    >
+        Error!
+    </div>
+    <div class="form-group mb-3">
+        <div class="form-group mb-3">
+            <label for="startTime" class="mb-2">Start date:</label>
+           <input
+                type="date"
+                class="form-control"
+                name="startTime"
+                formControlName="startTime"
+                required
+            >
+        </div>
+        <div class="form-group">
+            <label for="finishTime" class="mb-2">End date:</label>
+            <input
+                type="date"
+                class="form-control"
+                name="finishTime"
+                formControlName="finishTime"
+                required
+            >
+        </div>
+    </div>
+    
+    <button class="btn btn-primary" type="submit" [disabled]="iterationForm.invalid">Save</button>
+</form>

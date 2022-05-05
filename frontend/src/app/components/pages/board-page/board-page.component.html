@@ -1,0 +1,41 @@
+<app-loader [show]="!project || !iteration && !isError" ></app-loader>
+
+<ng-container *ngIf="project && iteration">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3 class="me-2">Iteration</h3>
+            <a class="btn btn-success btn-sm me-2" routerLink="/project/{{project.id}}/iterations/{{iteration.id}}/edit">
+                <fa-icon [icon]="faEdit"></fa-icon>
+            </a>
+            
+            <button class="btn btn-danger btn-sm" type="button" (click)="onDeleteIteration()">
+                <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+
+        </div>
+        <a class="btn btn-primary"
+            routerLink="/project/{{project.id}}/tasks/new"
+            [queryParams]="{'iterationId': iteration.id }"
+        >
+            Add new task
+        </a>
+    </div>
+    <h6 class="text-muted mb-3">{{iteration.startTime | date:"MMM dd"}} - {{iteration.finishTime | date:"MMM dd"}}</h6>
+    
+    <div class="row mb-3">
+        <div class="col">
+            <img
+                *ngFor="let user of project.users"
+                [src]="user.icon" class="rounded-circle me-1"
+                width="30"
+                height="30"
+                [ngbTooltip]="user.name"
+                placement="bottom"
+            >
+        </div>
+    </div>
+    
+    <app-board *ngIf="iteration" [iteration]="iteration"></app-board>
+
+</ng-container>

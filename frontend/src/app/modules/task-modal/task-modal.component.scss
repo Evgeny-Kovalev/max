@@ -1,0 +1,23 @@
+.backdrop {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(#000, 0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+.custom-modal {
+    position: fixed;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    z-index: 100;
+    min-width: 50vw;;
+}
+
+@media (max-width: 992px) {
+    .custom-modal {
+        padding: 0 1rem;
+        width: 100%;
+    }
+}

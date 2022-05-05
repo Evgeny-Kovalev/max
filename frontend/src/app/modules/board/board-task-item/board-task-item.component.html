@@ -1,0 +1,19 @@
+<div class="task" cdkDrag [cdkDragData]="task.id" (click)="showTaskModal(task)">
+    <div class="task__title mb-2"><span class="text-muted">{{task.title}}</span></div>
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+
+            <span class="badge bg-secondary rounded-pill me-2" *ngIf="task.storyPoint">{{task.storyPoint}}</span>
+
+            <img
+                [src]="task.assignee.icon" class="rounded-circle me-1"
+                width="25"
+                height="25"
+                [ngbTooltip]="task.assignee.name"
+                placement="bottom"
+            >
+            
+        </div>
+        <fa-icon class="ms-auto" [icon]="faTrash" type="button" (click)="onMoveToBacklog($event, task)"></fa-icon>
+    </div>
+</div>

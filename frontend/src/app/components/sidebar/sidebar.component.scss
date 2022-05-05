@@ -1,0 +1,81 @@
+.sidebar {
+    min-height: 100vh;
+    height: 100%;
+    transition: margin 0.25s ease-out;
+    position: relative;
+    
+    .sidebar-heading {
+        padding: 0.875rem 1.25rem;
+        font-size: 1.2rem;
+        height: 55px;
+    }
+    .nav-link {
+        padding: .5rem 1rem;
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: #333;
+
+        fa-icon {
+            color: #999;
+        }
+
+        &:hover {
+            fa-icon {
+                color: inherit;
+            }
+        }
+        
+        &.active, &.active fa-icon{
+            color: #007bff;
+        }
+    }
+    
+    .list-group {
+        width: 15rem;
+    
+        &-item {
+            border-width: 0 1px 1px 0px;
+        }
+    }
+}
+
+
+
+.border-end {
+    border-right: 1px solid #dee2e6;
+}
+
+.sidebarClose {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 20;
+    color: black;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.sidebar {
+    min-width: 15rem;
+    max-width: 15rem;
+
+    transition: all 0.3s;
+    position: relative; }
+
+    .sidebar.active {
+        margin-left: -15rem;
+    }
+
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        margin-left: -15rem;
+        
+    }
+
+    .sidebar.active {
+        margin-left: 0;
+    }
+}
+
+

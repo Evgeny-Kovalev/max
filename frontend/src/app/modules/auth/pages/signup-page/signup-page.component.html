@@ -1,0 +1,77 @@
+<div class="row justify-content-center mt-5">
+    <aside class="col-12 col-sm-6 col-lg-5">
+        <div class="card">
+            <article class="card-body">
+                <h4 class="card-title text-center mb-4 mt-1">Sign up</h4>
+                <hr>
+                <p class="text-danger text-center" *ngIf="error">{{error}}</p>
+                <div class="d-flex justify-content-center" *ngIf="isLoading">
+                    <app-loader [show]="true" ></app-loader>
+                </div>
+                <div class="alert alert-danger"
+                    *ngIf="form.controls.email.invalid && form.controls.email.touched"
+                >
+                    Incorrect email
+                </div>
+                <div class="alert alert-danger"
+                    *ngIf="form.controls.password.invalid && form.controls.password.touched"
+                >
+                    Password was entered incorrectly. Min length must be 5 symbols.
+                </div>
+                
+                <form [formGroup]="form" novalidate (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+                    <div class="form-group mb-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <fa-icon [icon]="faUser"></fa-icon>
+                                </span>
+                            </div>
+                            <input
+                                name="name"
+                                class="form-control"
+                                placeholder="Name"
+                                type="text"
+                                formControlName="name"
+                            >
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <fa-icon [icon]="faAt"></fa-icon>
+                                </span>
+                            </div>
+                            <input
+                                name="email"
+                                class="form-control"
+                                placeholder="Email"
+                                formControlName="email"
+                            >
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <fa-icon [icon]="faLock"></fa-icon>
+                                </span>
+                            </div>
+                            <input
+                                name="password"
+                                class="form-control"
+                                placeholder="******"
+                                type="password"
+                                formControlName="password"
+                            >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid">Sign up</button>
+                    </div>
+                </form>
+            </article>
+        </div>
+    </aside>
+</div>

@@ -1,0 +1,86 @@
+<div class="border-end bg-light sidebar" [ngClass]="{ 'active': !(showSideNav | async) }">
+    <div class="sidebar-heading border-bottom bg-ligth">Test</div>
+    
+    <h6 class="py-1 px-3 mt-2 mb-1 text-muted">Menu</h6>
+    
+    <ul class="nav flex-column my-2">
+        <li class="nav-item">
+            <a class="nav-link" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+                <fa-icon class="me-2" [icon]="faHome" ></fa-icon>
+                Home
+            </a>
+        </li>
+    </ul>
+    <ng-container *ngIf="isAuthUser">
+        
+        <div class="d-flex justify-content-between align-items-center py-1 px-3 mt-2 mb-1 text-muted">
+            <h6 class="p-0 m-0">Projects</h6>
+            <fa-icon [icon]="faPlusSquare" class="btn p-0 text-muted" (click)="openModal(content)" ></fa-icon>
+        </div>
+
+        <app-loader [show]="isProjectsLoading" ></app-loader>
+        
+        <ul class="nav flex-column my-2" >
+            <li class="nav-item" *ngFor="let project of (userProjects$ | async) ">
+                <a class="nav-link" routerLink="/project/{{project.id}}" routerLinkActive="active">
+                    <fa-icon class="me-2" [icon]="faFolder" ></fa-icon>{{project.title}}
+                </a>
+            </li>
+        </ul>
+
+    </ng-container>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Create new project</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <form #projectForm="ngForm">
+            <div class="form-group mb-4">
+                <label for="title" class="mb-2">Project title:</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="title"
+                    [(ngModel)]="newProjectData.title"
+                    #title="ngModel"
+                    required
+                >
+            </div>
+            <div class="form-group mb-4">
+                <label for="title" class="mb-2">Project description:</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    name="description"
+                    [(ngModel)]="newProjectData.description"
+                    #description="ngModel"
+                    required
+                >
+            </div>
+            <div class="form-group">
+                <label for="title" class="mb-2">Project users:</label>
+                <select class="form-select" multiple>
+                    <option *ngFor="let user of (allUsers)" [value]="user.name" >{{user.name}} - {{user.email}}</option>
+                  </select>
+            </div>
+            <div [hidden]="title.valid || title.untouched" class="alert alert-danger mt-2">
+                Title entered incorrectly!
+            </div>
+            <div [hidden]="description.valid || description.untouched" class="alert alert-danger mt-2">
+                Description entered incorrectly!
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button
+            [disabled]="projectForm.invalid"
+            type="button"
+            class="btn btn-primary"
+            (click)="onCreateProject(modal)">
+            Save
+        </button>
+    </div>
+</ng-template>

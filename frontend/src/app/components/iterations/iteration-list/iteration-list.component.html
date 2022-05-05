@@ -1,0 +1,16 @@
+<div class="alert alert-info" role="alert" *ngIf="iterations && !iterations.length">
+    Project has no iterations
+</div>
+
+<div *ngIf="!iterations">
+    <app-loader [show]="!iterations"></app-loader>
+</div>
+
+<ul class="list-group" *ngIf="iterations && iterations.length > 0" >
+    <app-iteration-item
+        *ngFor="let iteration of iterations"
+        [iteration]="iteration"
+        [project]="project"
+    >
+    </app-iteration-item>
+</ul>

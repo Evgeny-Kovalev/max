@@ -1,0 +1,11 @@
+<div
+    class="list p-3"
+    cdkDropList
+    [cdkDropListData]="{status, tasks}"
+    (cdkDropListDropped)="drop($event)"
+    [cdkDropListDisabled]="isLoading"
+>
+    <div class="mb-4 text-uppercase text-truncate title">{{status}} - {{tasks.length}}</div>
+    <app-board-task-item [task]="task" *ngFor="let task of tasks"></app-board-task-item>
+</div>
+

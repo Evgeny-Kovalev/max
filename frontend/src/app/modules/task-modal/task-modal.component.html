@@ -1,0 +1,96 @@
+<div class="backdrop" *ngIf="taskModalService.show && task" (click)="closeModal()" >
+</div>
+
+<div class="custom-modal" *ngIf="taskModalService.show && task" >
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="d-flex align-items-center">
+                <span *ngIf="task.status === 'todo'" class="badge bg-primary text-uppercase fs-6">{{task.status}}</span>
+                <span *ngIf="task.status === 'done'" class="badge bg-success text-uppercase fs-6">{{task.status}}</span>
+                <span *ngIf="task.status === 'doing'" class="badge bg-warning text-uppercase fs-6 text-dark">{{task.status}}</span>
+                <h5 class="modal-title ms-3">Task info</h5>
+            </div>
+            <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" novalidate>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="row mb-4">
+                            <div class="col d-flex align-items-center">
+                                <h4>{{task.title}}</h4>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <h4 class="me-2">Description</h4>
+                                <p class="text-muted">{{task.text}}</p>
+                            </div>
+                        </div>
+                        <div class="row mb-3 d-flex align-items-center">
+                            <div class="col d-flex align-items-center">
+                                <h4 class="d-inline m-0 me-2">Story point estimate</h4>
+                                <span *ngIf="task.storyPoint" class="badge bg-primary rounded-pill">4</span>
+                                <span *ngIf="!task.storyPoint" class="lead">None</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col d-flex align-items-center">
+                                <h4 class="d-inline m-0 me-2">Assignee:</h4>
+                                <div class="d-flex align-items-center">
+                                    <img [src]="task.assignee.icon" class="rounded-circle me-2" width="30" height="30">
+                                    <span>{{task.assignee.name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col d-flex align-items-center">
+                                <h4 class="d-inline m-0 me-2">Created at:</h4>
+                                <span class="fs-5">
+                                    {{task.startTime | date:'short'}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col d-flex align-items-center">
+                                <h4 class="d-inline m-0 me-2">Elapsed time(hours):</h4>
+                                <span class="fs-5 me-4" *ngIf="!showTimeSpentInput">
+                                    {{taskForm.value.timeSpent || '-'}}
+                                </span>
+                                <div class="d-flex" *ngIf="task.assignee._id === authUser?.id">
+                                    <input
+                                        *ngIf="showTimeSpentInput"
+                                        name="timeSpent"
+                                        formControlName="timeSpent"
+                                        min="0"
+                                        type="number"
+                                        class="form-control me-2 w-25"
+                                        required
+                                    >
+                                    <button
+                                        class="btn btn-success"
+                                        type="button"
+                                        (click)="onSetTimeSpent()"
+                                    >
+                                        Set
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="isEditMode">
+                        <div class="col d-flex justify-content-end">
+                            <button
+                                class="btn btn-primary"
+                                type="submit"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+    </div>
+</div>
